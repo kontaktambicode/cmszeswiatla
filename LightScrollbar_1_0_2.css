@@ -1,0 +1,57 @@
+/*!
+ * LightScrollbar CSS — v1.0.2
+ */
+.light-scroll{
+  position: relative; /* required */
+  --ls-track-size: 8px;
+  --ls-track-radius: 6px;
+  --ls-color-track: rgba(0,0,0,0.08);
+  --ls-color-grip: rgba(0,0,0,0.35);
+  --ls-zindex: 3;
+  scroll-behavior: auto;
+}
+/* Hide native scrollbars (class is added/removed by JS) */
+.light-scroll--hide-native{ -ms-overflow-style:none; scrollbar-width:none; }
+.light-scroll--hide-native::-webkit-scrollbar{ display:none; }
+
+.light-scroll-track-x,
+.light-scroll-track-y{
+  position:absolute;
+  z-index:var(--ls-zindex);
+  opacity:1;
+  pointer-events:auto;
+  transition:opacity 120ms ease;
+  background: var(--ls-color-track);
+  border-radius: var(--ls-track-radius);
+}
+.light-hidden{ opacity:0; pointer-events:none; }
+
+.light-scroll-track-x{
+  left:0; right:0; bottom:0; height:var(--ls-track-size);
+}
+.light-scroll-track-y{
+  top:0; bottom:0; right:0; width:var(--ls-track-size);
+}
+
+.light-scroll-grip-x,
+.light-scroll-grip-y{
+  position:absolute;
+  background:var(--ls-color-grip);
+  border-radius:var(--ls-track-radius);
+  cursor:pointer;
+  will-change: transform, left, top;
+  transition: background-color 120ms ease, opacity 120ms ease;
+  touch-action:none;
+  user-select:none;
+}
+.light-scroll-grip-x{ top:0; bottom:0; width:40px; }   /* fixed width; adjust in CSS as needed */
+.light-scroll-grip-y{ left:0; right:0; height:40px; }  /* fixed height */
+
+.light-scroll-grip-x:hover,
+.light-scroll-grip-y:hover{ background:rgba(0,0,0,0.5); }
+.light-scroll--dragging .light-scroll-grip-x,
+.light-scroll--dragging .light-scroll-grip-y{ background:rgba(0,0,0,0.6); user-select:none; }
+
+/* keep tracks from visually overlapping when both visible */
+.light-scroll.light-scroll--has-x .light-scroll-track-y{ bottom:var(--ls-track-size); }
+.light-scroll.light-scroll--has-y .light-scroll-track-x{ right:var(--ls-track-size); }

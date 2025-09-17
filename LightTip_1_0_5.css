@@ -1,0 +1,138 @@
+/*!
+ * LightTip CSS
+ * Version: 1.0.5
+ * Pairs with LightTip JS 1.0.3
+ */
+
+.light-tip {
+  position: fixed;
+  opacity: 0;
+  transform: scale(0.98);
+  pointer-events: none;
+  will-change: transform, left, top;
+  transition: opacity 120ms ease, transform 120ms ease;
+  z-index: var(--lt-z, auto);
+  isolation: isolate;
+  contain: layout paint;
+  /* defaults */
+  --lt-bg: #111;
+  --lt-color: #fff;
+  --lt-border: rgba(0,0,0,0.2);
+  --lt-radius: 6px;
+  --lt-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  --lt-padding-y: 8px;
+  --lt-padding-x: 10px;
+  --lt-arrow-size: 8px;
+}
+
+.light-tip--visible { opacity: 1; transform: none; }
+
+.light-tip-inner {
+  position: relative;
+  pointer-events: auto;
+  background: var(--lt-bg);
+  color: var(--lt-color);
+  border: 1px solid var(--lt-border);
+  border-radius: var(--lt-radius);
+  box-shadow: var(--lt-shadow);
+  padding: var(--lt-padding-y) var(--lt-padding-x);
+  max-width: min(80vw, 480px);
+  max-height: min(70vh, 480px);
+  overflow: auto;
+  font-size: 14px;
+  line-height: 1.4;
+  outline: none;
+  box-sizing: border-box;
+  /* mobile/overscroll tweaks */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Focus visibility */
+.light-tip-inner:focus-visible,
+.light-tip-inner :focus-visible {
+  outline: 2px solid rgba(100, 150, 250, 0.9);
+  outline-offset: 2px;
+}
+
+/* Arrow */
+.light-tip-arrow {
+  position: absolute;
+  width: 0; height: 0;
+  pointer-events: none;
+}
+
+/* Orientations */
+.light-tip[data-side="top"] .light-tip-arrow {
+  bottom: calc(-1 * var(--lt-arrow-size));
+  border-left: var(--lt-arrow-size) solid transparent;
+  border-right: var(--lt-arrow-size) solid transparent;
+  border-top: var(--lt-arrow-size) solid var(--lt-bg);
+}
+.light-tip[data-side="bottom"] .light-tip-arrow {
+  top: calc(-1 * var(--lt-arrow-size));
+  border-left: var(--lt-arrow-size) solid transparent;
+  border-right: var(--lt-arrow-size) solid transparent;
+  border-bottom: var(--lt-arrow-size) solid var(--lt-bg);
+}
+.light-tip[data-side="left"] .light-tip-arrow {
+  right: calc(-1 * var(--lt-arrow-size));
+  border-top: var(--lt-arrow-size) solid transparent;
+  border-bottom: var(--lt-arrow-size) solid transparent;
+  border-left: var(--lt-arrow-size) solid var(--lt-bg);
+}
+.light-tip[data-side="right"] .light-tip-arrow {
+  left: calc(-1 * var(--lt-arrow-size));
+  border-top: var(--lt-arrow-size) solid transparent;
+  border-bottom: var(--lt-arrow-size) solid transparent;
+  border-right: var(--lt-arrow-size) solid var(--lt-bg);
+}
+
+/* Border continuation (outline) */
+.light-tip[data-side="top"] .light-tip-arrow::before,
+.light-tip[data-side="bottom"] .light-tip-arrow::before,
+.light-tip[data-side="left"] .light-tip-arrow::before,
+.light-tip[data-side="right"] .light-tip-arrow::before {
+  content: "";
+  position: absolute;
+  width: 0; height: 0;
+}
+.light-tip[data-side="top"] .light-tip-arrow::before {
+  left: calc(-1 * var(--lt-arrow-size));
+  top: calc(-1 * var(--lt-arrow-size));
+  border-left: var(--lt-arrow-size) solid transparent;
+  border-right: var(--lt-arrow-size) solid transparent;
+  border-top: var(--lt-arrow-size) solid var(--lt-border);
+}
+.light-tip[data-side="bottom"] .light-tip-arrow::before {
+  left: calc(-1 * var(--lt-arrow-size));
+  top: 0;
+  border-left: var(--lt-arrow-size) solid transparent;
+  border-right: var(--lt-arrow-size) solid transparent;
+  border-bottom: var(--lt-arrow-size) solid var(--lt-border);
+}
+.light-tip[data-side="left"] .light-tip-arrow::before {
+  top: calc(-1 * var(--lt-arrow-size));
+  left: calc(-1 * var(--lt-arrow-size));
+  border-top: var(--lt-arrow-size) solid transparent;
+  border-bottom: var(--lt-arrow-size) solid transparent;
+  border-left: var(--lt-arrow-size) solid var(--lt-border);
+}
+.light-tip[data-side="right"] .light-tip-arrow::before {
+  top: calc(-1 * var(--lt-arrow-size));
+  left: 0;
+  border-top: var(--lt-arrow-size) solid transparent;
+  border-bottom: var(--lt-arrow-size) solid transparent;
+  border-right: var(--lt-arrow-size) solid var(--lt-border);
+}
+
+/* Motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .light-tip { transition: none; transform: none; }
+}
+
+/* LightScrollbar inside the tip */
+.light-tip-inner.light-scroll--has-x { padding-bottom: calc(var(--ls-track-size, 8px) + var(--lt-padding-y)); }
+.light-tip-inner.light-scroll--has-y { padding-right:  calc(var(--ls-track-size, 8px) + var(--lt-padding-x)); }
+.light-tip-inner .light-scroll-track-x,
+.light-tip-inner .light-scroll-track-y { z-index: 4; }
